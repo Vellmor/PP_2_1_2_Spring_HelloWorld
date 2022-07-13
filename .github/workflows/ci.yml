@@ -10,7 +10,7 @@ on:
 
 jobs:
   compile-social-network:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest124
     steps:
       - name: Clone and checkout
         uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B compile  
   test-social-network:
-    if: ${{ success() }}
+#    if: ${{ success() }}
     needs:
       - compile-social-network
     runs-on: ubuntu-latest
