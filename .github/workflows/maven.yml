@@ -1,15 +1,16 @@
 name: Java CI with Maven
 
-on: 
-  push:
-    branches:
-      - master
+on:
   pull_request:
     branches:
-      - master
+      - dev
+  push:
+    branches:
+      - dev
 
 jobs:
-  build_and_test:
+  
+  build:
 
     runs-on: ubuntu-latest
 
@@ -24,7 +25,28 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn -B compile
+        run: mvn -B package --file pom.xml
+
+      - name: Run tests
+        if: ${{ success() }}
+        run: mvn -B test
+  
+  
+  test:
+    needs:
+      - build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Run tests
         if: ${{ success() }}
