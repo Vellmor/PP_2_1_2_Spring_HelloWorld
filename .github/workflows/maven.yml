@@ -1,54 +1,35 @@
-name: Java CI with Maven
+name: Social-Network-CI
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
 
 jobs:
-  
-  build:
-
+  compile-social-network:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Clone
+      - name: Clone and checkout
         uses: actions/checkout@v3
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Run tests
-        if: ${{ success() }}
-        run: mvn -B test
-  
-  
-  test:
+        run: mvn -B compile  
+  test-social-network:
     if: ${{ success() }}
     needs:
-      - build
-
+      - compile-social-network
     runs-on: ubuntu-latest
-
     steps:
-      - name: Clone
+      - name: Clone and checkout
         uses: actions/checkout@v3
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Run tests
-        if: ${{ success() }}
+      - name: Run tests with Maven
         run: mvn -B test
