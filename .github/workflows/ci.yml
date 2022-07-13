@@ -20,9 +20,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Build with Maven
-        run: mvn -B build  
+        run: mvn -B compile  
   test-social-network:
-#    if: ${{ success() }}
     needs:
       - compile-social-network
     runs-on: ubuntu-latest
